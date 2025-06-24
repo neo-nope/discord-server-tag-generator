@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Default Tags -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+
+<!-- Titles -->
+<title>Sleepy's Discord Server/Clan Tag Generator</title>
+<meta name="pagename" content="Sleepy's Discord Server/Clan Tag Generator">
+<meta property="og:title" content="Sleepy's Discord Server/Clan Tag Generator">
+<meta name="twitter:title" content="Sleepy's Discord Server/Clan Tag Generator">
+
+<!-- Descriptions -->
+<meta name="description" content="Easily make Discord Server Tags that are longer than 4 characters using this site!">
+<meta property="og:description" content="Easily make Discord Server Tags that are longer than 4 characters using this site!">
+<meta name="twitter:description" content="Easily make Discord Server Tags that are longer than 4 characters using this site!">
+
+<!-- Keywords -->
+<meta name="keywords" content="discord, discord clan tag, discord server tag, server tag generator, clan tag generator, discord tag generator, tag generator">
+<meta name="news_keywords" content="discord, discord clan tag, discord server tag, server tag generator, clan tag generator, discord tag generator, tag generator">
+
+<!-- Site Data -->
+<meta name="url" content="https://sleepie.dev/tools/discord-server-tag-generator">
+<meta property="og:url" content="https://sleepie.dev/tools/discord-server-tag-generator">
+<meta name="twitter:url" content="https://sleepie.dev/tools/discord-server-tag-generator">
+<meta property="og:site_name" content="! Sleepy :3">
+<meta name="twitter:site" content="@eepyfemboi">
+<meta name="twitter:creator" content="@eepyfemboi">
+
+<!-- Metadata generated for this site by https://github.com/eepyfemboi/html-metadata-generator -->
+  <style>
+    body { font-family: sans-serif; padding: 2rem; background: #1e1e1e; color: #eee; }
+    input, label { font-size: 1rem; }
+    .results { margin-top: 1rem; }
+    .results div { margin: 0.2rem 0; }
+  </style>
+</head>
+<body>
+  <h1>Sleepy's Discord Server/Clan Tag Generator</h1>
+  <h2>For tutorials for both desktop and mobile to put on a discord server tag, check out <a href="https://sleepie.dev/tag" target="_blank">https://sleepie.dev/tag</a>. You can link these instructions in your own server to help people put your tag on! :3<br>Also, you should join <a href="https://discord.gg/femz" target="_blank">discord.gg/femz</a> for the femboy tag and <a href="https://discord.gg/Y7ZFsK6YeH" target="_blank">discord.gg/Y7ZFsK6YeH</a> for the twink tag :3 (discord.gg/femz is my main server btw :3)</h2>
+  <label for="input">Enter text:</label>
+  <input type="text" id="input" /><br>
+  <label><input type="checkbox" id="ignoreCase" /> Ignore Case</label><br>
+  <label><input type="checkbox" id="allowVisual" /> Allow Visual Lookalikes</label><br>
+  <button onclick="shrink()">Generate</button>
+  <br><br>
+  <label for="results">Results:</label>
+
+  <div class="results" id="results"></div>
+
+  <script>
+    const ligatures = {
+      "IJ": ["\u0132"], "ij": ["\u0133"], "LJ": ["\u01c7"], "Lj": ["\u01c8"], "lj": ["\u01c9"],
+      "NJ": ["\u01ca"], "Nj": ["\u01cb"], "nj": ["\u01cc"], "DZ": ["\u01f1"], "Dz": ["\u01f2"],
+      "dz": ["\u01f3"], "Rs": ["\u20a8"], "No": ["\u2116"], "SM": ["\u2120"], "TEL": ["\u2121"],
+      "TM": ["\u2122"], "FAX": ["\u213b"], "II": ["\u2161"], "III": ["\u2162"], "IV": ["\u2163"],
+      "VI": ["\u2165"], "VII": ["\u2166"], "VIII": ["\u2167"], "IX": ["\u2168"], "XI": ["\u216a"],
+      "XII": ["\u216b"], "ii": ["\u2171"], "iii": ["\u2172"], "iv": ["\u2173"], "vi": ["\u2175"],
+      "vii": ["\u2176"], "viii": ["\u2177"], "ix": ["\u2178"], "xi": ["\u217a"], "xii": ["\u217b"],
+      "PTE": ["\u3250"], "Hg": ["\u32cc"], "erg": ["\u32cd"], "eV": ["\u32ce"], "LTD": ["\u32cf"],
+      "hPa": ["\u3371"], "da": ["\u3372"], "AU": ["\u3373"], "bar": ["\u3374"], "oV": ["\u3375"],
+      "pc": ["\u3376"], "dm": ["\u3377"], "IU": ["\u337a"], "pA": ["\u3380"], "nA": ["\u3381"],
+      "mA": ["\u3383"], "kA": ["\u3384"], "KB": ["\u3385"], "MB": ["\u3386"], "GB": ["\u3387"],
+      "cal": ["\u3388"], "kcal": ["\u3389"], "pF": ["\u338a"], "nF": ["\u338b"], "mg": ["\u338e"],
+      "kg": ["\u338f"], "Hz": ["\u3390"], "kHz": ["\u3391"], "MHz": ["\u3392"], "GHz": ["\u3393"],
+      "THz": ["\u3394"], "ml": ["\u3396"], "dl": ["\u3397"], "kl": ["\u3398"], "fm": ["\u3399"],
+      "nm": ["\u339a"], "mm": ["\u339c"], "cm": ["\u339d"], "km": ["\u339e"], "Pa": ["\u33a9"],
+      "kPa": ["\u33aa"], "MPa": ["\u33ab"], "GPa": ["\u33ac"], "rad": ["\u33ad"], "ps": ["\u33b0"],
+      "ns": ["\u33b1"], "ms": ["\u33b3"], "pV": ["\u33b4"], "nV": ["\u33b5"], "mV": ["\u33b7"],
+      "kV": ["\u33b8"], "MV": ["\u33b9", "\ud83c\udd4b"], "pW": ["\u33ba"], "nW": ["\u33bb"],
+      "mW": ["\u33bd"], "kW": ["\u33be"], "MW": ["\u33bf"], "Bq": ["\u33c3"], "cc": ["\u33c4"],
+      "cd": ["\u33c5"], "dB": ["\u33c8"], "Gy": ["\u33c9"], "ha": ["\u33ca"], "HP": ["\u33cb"],
+      "in": ["\u33cc"], "KK": ["\u33cd"], "KM": ["\u33ce"], "kt": ["\u33cf"], "lm": ["\u33d0"],
+      "ln": ["\u33d1"], "log": ["\u33d2"], "lx": ["\u33d3"], "mb": ["\u33d4"], "mil": ["\u33d5"],
+      "mol": ["\u33d6"], "PH": ["\u33d7"], "PPM": ["\u33d9"], "PR": ["\u33da"], "sr": ["\u33db"],
+      "Sv": ["\u33dc"], "Wb": ["\u33dd"], "gal": ["\u33ff"], "ff": ["\ufb00"], "fi": ["\ufb01"],
+      "fl": ["\ufb02"], "ffi": ["\ufb03"], "ffl": ["\ufb04"], "st": ["\ufb05", "\ufb06"],
+      "CD": ["\ud83c\udd2d"], "WZ": ["\ud83c\udd2e"], "HV": ["\ud83c\udd4a"], "SD": ["\ud83c\udd4c"],
+      "SS": ["\ud83c\udd4d"], "PPV": ["\ud83c\udd4e"], "WC": ["\ud83c\udd4f"], "MC": ["\ud83c\udd6a"],
+      "MD": ["\ud83c\udd6b"], "MR": ["\ud83c\udd6c"], "DJ": ["\ud83c\udd90"]
+    };
+
+    const visualMap = {
+      'i': ['l', '1', '|', '!', 'ɩ'],
+      'l': ['i', '1', '|', '!'],
+      '1': ['i', 'l', '|', '!'],
+      '|': ['i', 'l', '1'],
+      '!': ['i', 'l', '1'],
+
+      'o': ['0', 'O', '°', '●'],
+      '0': ['o', 'O'],
+      'O': ['o', '0'],
+
+      'a': ['@'],
+      's': ['$', '5'],
+      '$': ['s', '5'],
+      '5': ['s', '$'],
+
+      'e': ['3', '€'],
+      '3': ['e'],
+      '€': ['e'],
+
+      'b': ['8'],
+      '8': ['b'],
+
+      'c': ['¢'],
+      '¢': ['c'],
+
+      'g': ['9'],
+      '9': ['g']
+    };
+
+    function getVisualSubs(char) {
+      return visualMap[char] || [];
+    }
+
+    function shrink() {
+      const input = document.getElementById('input').value;
+      const ignoreCase = document.getElementById('ignoreCase').checked;
+      const allowVisual = document.getElementById('allowVisual').checked;
+      const variants = new Set();
+
+      const keys = Object.keys(ligatures);
+      const searchKeys = ignoreCase ? keys.map(k => k.toLowerCase()) : keys;
+      const map = {};
+      for (let i = 0; i < searchKeys.length; i++) {
+        map[searchKeys[i]] = ligatures[keys[i]];
+      }
+
+      function recurse(str, built) {
+        if (built.length > 4) return;
+        if (str.length === 0) {
+          variants.add(built);
+          return;
+        }
+
+        for (let len = 5; len >= 1; len--) {
+          if (len > str.length) continue;
+          const sub = str.slice(0, len);
+          const subKey = ignoreCase ? sub.toLowerCase() : sub;
+          if (map[subKey]) {
+            for (const rep of map[subKey]) {
+              recurse(str.slice(len), built + rep);
+            }
+          }
+        }
+
+        const char = str[0];
+        recurse(str.slice(1), built + char);
+        if (allowVisual) {
+          const visSubs = getVisualSubs(char.toLowerCase());
+          for (const alt of visSubs) {
+            recurse(str.slice(1), built + alt);
+          }
+        }
+      }
+
+      recurse(input, "");
+      const results = Array.from(variants).filter(x => x.length <= 4);
+      document.getElementById('results').innerHTML = results.length ? results.map(x => `<div>${x}</div>`).join("") : "<div>No results found.</div>";
+    }
+  </script>
+</body>
+</html>
